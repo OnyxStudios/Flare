@@ -1,2 +1,2 @@
 # Flare
- 
+ Flare Messaging Platform
