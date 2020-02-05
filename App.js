@@ -22,9 +22,7 @@ class App extends React.Component {
     };
 
     render() {
-        return(
-            null
-        );
+        return(<ImageBackground source={DEFAULT_SPLASH} style={{flex: 1, width: '100%', height: '100%'}} />);
     }
 }
 

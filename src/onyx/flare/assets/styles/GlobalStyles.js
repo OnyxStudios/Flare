@@ -3,17 +3,16 @@ const Theme = require('./Theme');
 
 const global = StyleSheet.create({
     navigationBar: {
-        backgroundColor: Theme.navBackgroundColor,
+        backgroundColor: Theme.navBottomColor,
         borderTopColor: Theme.navBorderColor,
-        borderTopWidth: 3
+        borderTopWidth: 1
     },
     navigationHeader: {
-        backgroundColor: Theme.navBackgroundColor,
         borderBottomColor: Theme.navBorderColor,
-        borderBottomWidth: 3
+        borderBottomWidth: 1
     },
     headerText: {
-        color: Theme.textColor,
+        color: Theme.navTextColor,
         fontFamily: 'Arial',
         fontSize: 22
     },

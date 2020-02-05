@@ -8,4 +8,4 @@ module.exports = {
     DARK_BG,
     LOGO,
     DEFAULT_SPLASH
-}
+};
