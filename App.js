@@ -1,13 +1,40 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Navigation} from "react-native-navigation";
+import {ImageBackground, Dimensions} from 'react-native';
+import {createAppContainer, createSwitchNavigator} from "react-navigation";
+import {MainStack, SignInStack} from './src/onyx/flare/AppNavigation';
+import {getData} from './src/onyx/flare/utils/StorageUtils';
+import {DEFAULT_SPLASH} from './src/onyx/flare/utils/Images';
 
-export default class App extends React.Component {
+class App extends React.Component {
 
-  componentWillMount() {
-  }
+    static navigationOptions = {header: null};
 
-  render() {
-    return null;
-  }
+    constructor(props) {
+        super(props);
+        this._loadAsync();
+    }
+
+    _loadAsync = async () => {
+        //TODO Load User Data + Check if they're authenticated or not, if not then show welcome
+        getData('showWelcome').then(value => {
+          this.props.navigation.navigate(value === 'false' ? 'Main' : 'Welcome');
+        });
+    };
+
+    render() {
+        return(
+            null
+        );
+    }
 }
+
+export default createAppContainer(createSwitchNavigator(
+    {
+      Loading: App,
+      Main: MainStack,
+      Welcome: SignInStack
+    },
+    {
+      initialRouteName: 'Loading'
+    }
+));
