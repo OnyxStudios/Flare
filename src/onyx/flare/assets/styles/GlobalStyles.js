@@ -1,7 +1,7 @@
 import {StyleSheet} from "react-native";
 const Theme = require('./Theme');
 
-const global = StyleSheet.create({
+let global = StyleSheet.create({
     navigationBar: {
         backgroundColor: Theme.navBottomColor,
         borderTopColor: Theme.navBorderColor,
