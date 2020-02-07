@@ -1,5 +1,6 @@
 import {StyleSheet, Dimensions} from "react-native";
 import {Header} from "react-navigation-stack";
+
 const Theme = require('./Theme');
 const sectionsPerPage = 12;
 
