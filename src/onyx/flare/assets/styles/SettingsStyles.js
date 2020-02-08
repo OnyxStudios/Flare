@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from "react-native";
+import {hexToRGBA} from './../../utils/FlareUtils';
 const Theme = require('./Theme');
 const imageSize = Dimensions.get('window').width * 0.2;
 
@@ -91,6 +92,11 @@ let settings = StyleSheet.create({
         borderBottomColor: Theme.callBorderColor,
         borderBottomWidth: 1
     },
+    simpleSettingsBtn: {
+        width: '100%',
+        paddingTop: 10,
+        paddingBottom: 10
+    },
     profilePicContainer: {
         width: imageSize,
         height: imageSize
@@ -150,6 +156,32 @@ let settings = StyleSheet.create({
     importantText: {
         color: Theme.cancelColor,
         fontSize: 16
+    },
+    optionsContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    settingOptions: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    option: {
+        width: '30%',
+        padding: 5,
+        alignItems: 'center',
+        marginRight: 5,
+        marginLeft: 5,
+        marginTop: 5
+    },
+    selectedOption: {
+        backgroundColor: hexToRGBA(Theme.backgroundColor, 0.4),
+        borderColor: Theme.profileBorderColor,
+        borderTopWidth: 2,
+        borderBottomWidth: 2
     }
 });
 

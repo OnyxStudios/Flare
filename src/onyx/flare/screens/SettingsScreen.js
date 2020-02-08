@@ -25,12 +25,14 @@ export default class CallsScreen extends React.Component {
         name: '',
         changes: false,
         autoSave: true,
-        notifications: true
+        notifications: true,
+        theme: '',
+        themeOptionsOpen: false
     };
 
     componentDidMount() {
         this.props.navigation.setParams({saveData: this.saveData, cancelChanges: this.cancelChanges, changes: false});
-        this.setState({name: userData.name, changes: false});
+        this.setState({name: userData.name, changes: false, theme: 'light'});
     }
 
     saveData = () => {
@@ -71,11 +73,22 @@ export default class CallsScreen extends React.Component {
         this.changeSettings();
     };
 
+    setTheme = (newTheme) => {
+        let {theme} = this.state;
+        if(newTheme !== theme)
+            this.setState({theme: newTheme});
+    };
+
+    handleThemes = () => {
+        let {themeOptionsOpen} = this.state;
+        this.setState({themeOptionsOpen: !themeOptionsOpen});
+    };
+
     render() {
-        let {name, autoSave, notifications} = this.state;
+        let {name, autoSave, notifications, themeOptionsOpen, theme} = this.state;
 
         return(
-            <ScrollView style={{flex: 1}}>
+            <ScrollView style={{flex: 1}} >
                 <View style={SettingsStyles.rowCategory}>
                     <ImageBackground source={{uri: userData.profilePic}} style={SettingsStyles.profilePicContainer} imageStyle={SettingsStyles.profilePic}>
                         <TouchableOpacity style={SettingsStyles.changeOverlay} onPress={this.changeImage}><Text style={SettingsStyles.changeText}>CHANGE</Text></TouchableOpacity>
@@ -99,12 +112,28 @@ export default class CallsScreen extends React.Component {
                         <Text style={SettingsStyles.settingText}>Receive Notifications</Text>
                         <Switch onValueChange={this.setNotifications} value={notifications} />
                     </View>
+
+                    <View style={SettingsStyles.optionsContainer}>
+                        <TouchableOpacity style={SettingsStyles.settingsBtn} onPress={this.handleThemes}><Text style={SettingsStyles.settingText}>Change Theme</Text></TouchableOpacity>
+                        {themeOptionsOpen ?
+                        <View style={SettingsStyles.settingOptions}>
+                            <TouchableOpacity onPress={() => this.setTheme('light')} style={[SettingsStyles.option, theme === 'light' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Light</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.setTheme('dark')} style={[SettingsStyles.option, theme === 'dark' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Dark</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.setTheme('black')} style={[SettingsStyles.option, theme === 'black' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Black</Text></TouchableOpacity>
+                        </View> : null }
+                    </View>
                 </View>
 
                 <Text style={SettingsStyles.categoryHeader}>Account</Text>
                 <View style={SettingsStyles.category}>
                     <TouchableOpacity style={SettingsStyles.settingsBtn}><Text style={SettingsStyles.importantText}>Clear All Chats</Text></TouchableOpacity>
                     <TouchableOpacity style={SettingsStyles.settingsBtn}><Text style={SettingsStyles.importantText}>Log Out</Text></TouchableOpacity>
+                </View>
+
+                <Text style={SettingsStyles.categoryHeader}>Legal</Text>
+                <View style={SettingsStyles.category}>
+                    <TouchableOpacity style={SettingsStyles.settingsBtn}><Text style={SettingsStyles.settingText}>Terms of Service</Text></TouchableOpacity>
+                    <TouchableOpacity style={SettingsStyles.settingsBtn}><Text style={SettingsStyles.settingText}>Privacy Policy</Text></TouchableOpacity>
                 </View>
             </ScrollView>
         );

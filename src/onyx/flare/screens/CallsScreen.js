@@ -82,7 +82,6 @@ export default class CallsScreen extends React.Component {
             <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     data={tempData}
-                    showsVerticalScrollIndicator={false}
                     numColumns={1}
                     keyExtractor={(item) => item.callId}
                     renderItem={({item}) => {
