@@ -12,7 +12,7 @@ let userData = {
     number: '+1 (313) 548-1568'
 };
 
-export default class CallsScreen extends React.Component {
+export default class SettingsScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         title: <Text style={GlobalStyles.headerText}>Settings</Text>,
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),

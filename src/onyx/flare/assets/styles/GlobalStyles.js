@@ -13,7 +13,6 @@ let global = StyleSheet.create({
     },
     headerText: {
         color: Theme.navTextColor,
-        fontFamily: 'Arial',
         fontSize: 22
     },
 });

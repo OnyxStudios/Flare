@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity, ImageBackground} from "react-native";
 import {DARK_BG} from "../utils/Images";
 
-export default class CallsScreen extends React.Component {
+export default class WelcomeScreen extends React.Component {
     static navigationOptions = {headerShown: false};
 
     render() {
