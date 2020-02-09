@@ -13,6 +13,7 @@ let theme = {
     cancelColor: '#b50000',
     categoryColor: '#FFFFFF',
     shadowColor: '#000',
+    deleteColor: '#ff5959',
     //Navigation Styles
     navTextColor: '#FFFFFF',
     navActiveColor: '#4e6eed',

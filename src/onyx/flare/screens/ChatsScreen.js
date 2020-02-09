@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, SafeAreaView, FlatList, Image, TouchableOpacity} from "react-native";
+import Swipeable from 'react-native-swipeable-row';
 import {global as GlobalStyles} from './../assets/styles/GlobalStyles';
 import {LinearGradient} from "expo-linear-gradient";
 import {chats as ChatsStyles} from './../assets/styles/ChatsStyles';
@@ -70,30 +71,52 @@ export default class ChatsScreen extends React.Component {
         headerStyle: GlobalStyles.navigationHeader
     };
 
+    state = {
+        swiping: false
+    };
+
     openChat = (chatData) => {
         this.props.navigation.navigate('Conversation', {chatData});
     };
 
+    setSwiping = () => {
+        let {swiping} = this.state;
+        this.setState({swiping: !swiping});
+    };
+
+    deleteChat = (chatID) => {
+        console.log("Pressed Delete! " + chatID)
+    };
+
+    DeleteButton = (chatID) => {
+        return <TouchableOpacity onPress={() => this.deleteChat(chatID)} style={GlobalStyles.deleteSwipe}><Text style={{color: Theme.navTextColor, fontSize: 16}}>Delete</Text></TouchableOpacity>;
+    };
+
     render() {
+        let {swiping} = this.state;
+
         return(
             <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     data={tempData}
                     numColumns={1}
                     keyExtractor={(item) => item.id}
+                    scrollEnabled={!swiping}
                     renderItem={({item}) => {
                         return (
-                            <TouchableOpacity style={ChatsStyles.chatContainer} onPress={() => this.openChat(item)}>
-                                <Image source={{uri: item.icon}} style={ChatsStyles.chatIcon} />
-                                <View style={ChatsStyles.chatData}>
-                                    <View style={ChatsStyles.chatHeading}>
-                                        <Text numberOfLines={1} style={ChatsStyles.chatTitle}>{item.name.length < 28 ? item.name : item.name.substr(0, 25) + '...'}</Text>
-                                        <Text style={ChatsStyles.chatDate}>{isToday(item.lastMsgDate) ? item.lastMsgTime : item.lastMsgDate}</Text>
-                                    </View>
+                            <Swipeable rightButtons={[this.DeleteButton(item.id)]} onSwipeStart={this.setSwiping} onSwipeRelease={this.setSwiping}>
+                                <TouchableOpacity style={ChatsStyles.chatContainer} onPress={() => this.openChat(item)}>
+                                    <Image source={{uri: item.icon}} style={ChatsStyles.chatIcon} />
+                                    <View style={ChatsStyles.chatData}>
+                                        <View style={ChatsStyles.chatHeading}>
+                                            <Text numberOfLines={1} style={ChatsStyles.chatTitle}>{item.name.length < 28 ? item.name : item.name.substr(0, 25) + '...'}</Text>
+                                            <Text style={ChatsStyles.chatDate}>{isToday(item.lastMsgDate) ? item.lastMsgTime : item.lastMsgDate}</Text>
+                                        </View>
 
-                                    <Text style={ChatsStyles.chatLastMsg} numberOfLines={2}>{item.lastMsg}</Text>
-                                </View>
-                            </TouchableOpacity>
+                                        <Text style={ChatsStyles.chatLastMsg} numberOfLines={2}>{item.lastMsg}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </Swipeable>
                         );
                     }}
                 />

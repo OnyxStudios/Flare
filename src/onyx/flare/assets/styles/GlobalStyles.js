@@ -15,6 +15,12 @@ let global = StyleSheet.create({
         color: Theme.navTextColor,
         fontSize: 22
     },
+    deleteSwipe: {
+        backgroundColor: Theme.deleteColor,
+        justifyContent: 'center',
+        height: '100%',
+        paddingLeft: 15
+    }
 });
 
 module.exports = {global};

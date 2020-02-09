@@ -9,14 +9,26 @@ import CallsScreen from './screens/CallsScreen';
 import ChatsScreen from './screens/ChatsScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ConversationScreen from './screens/ConversationScreen';
+import WallpaperPresetsScreen from './screens/WallpaperPresetsScreen';
 
 import {global as GlobalStyles} from './assets/styles/GlobalStyles';
 const Theme = require('./assets/styles/Theme');
 
 const CallsStack = createStackNavigator({Calls: {screen: CallsScreen}}, {initialRouteName: 'Calls'});
 const ChatsStack = createStackNavigator({Chats: {screen: ChatsScreen}, Conversation: {screen: ConversationScreen}}, {initialRouteName: 'Chats'});
-const SettingsStack = createStackNavigator({Settings: {screen: SettingsScreen}}, {initialRouteName: 'Settings'});
+const SettingsStack = createStackNavigator({Settings: {screen: SettingsScreen}, Wallpaper: {screen: WallpaperPresetsScreen}}, {initialRouteName: 'Settings'});
 ChatsStack.navigationOptions = ({navigation}) => {
+    let tabBarVisible = true;
+    if(navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
+
+    return {
+        tabBarVisible
+    }
+};
+
+SettingsStack.navigationOptions = ({navigation}) => {
     let tabBarVisible = true;
     if(navigation.state.index > 0) {
         tabBarVisible = false;

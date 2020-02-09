@@ -5,6 +5,7 @@ import {FontAwesome} from '@expo/vector-icons';
 import {global as GlobalStyles} from './../assets/styles/GlobalStyles';
 import {calls as CallsStyles} from './../assets/styles/CallsStyles';
 import {isToday} from './../utils/FlareUtils';
+import Swipeable from "react-native-swipeable-row";
 const Theme = require('./../assets/styles/Theme');
 
 let tempData = [
@@ -69,6 +70,10 @@ export default class CallsScreen extends React.Component {
         headerStyle: GlobalStyles.navigationHeader
     };
 
+    state = {
+        swiping: false
+    };
+
     formatCallerTitle = (caller) => {
         let name = caller.name ? caller.name : caller.number;
         let missed = caller.callStatus.missedAmount > 1 ? '(' + caller.callStatus.missedAmount + ')' : '';
@@ -77,23 +82,41 @@ export default class CallsScreen extends React.Component {
         return <Text style={caller.callStatus.missedAmount > 0 ? CallsStyles.missedTitle : CallsStyles.callTitle}>{name + '  ' + missed + called}</Text>;
     };
 
+    setSwiping = () => {
+        let {swiping} = this.state;
+        this.setState({swiping: !swiping});
+    };
+
+    deleteCall = (callID) => {
+        console.log("Pressed Delete! " + callID)
+    };
+
+    DeleteButton = (callID) => {
+        return <TouchableOpacity onPress={() => this.deleteCall(callID)} style={GlobalStyles.deleteSwipe}><Text style={{color: Theme.navTextColor, fontSize: 16}}>Delete</Text></TouchableOpacity>;
+    };
+
     render() {
+        let {swiping} = this.state;
+
         return(
             <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     data={tempData}
                     numColumns={1}
                     keyExtractor={(item) => item.callId}
+                    scrollEnabled={!swiping}
                     renderItem={({item}) => {
                         return(
-                            <TouchableOpacity style={CallsStyles.callSection} onPress={null}>
-                                <View style={CallsStyles.callInfo}>
-                                    {this.formatCallerTitle(item)}
-                                    <Text style={CallsStyles.subText}><FontAwesome name={item.callType == 'voice' ? 'phone' : 'video-camera'} size={12} color={Theme.iconColor}/> {item.callStatus.type}</Text>
-                                </View>
+                            <Swipeable rightButtons={[this.DeleteButton(item.callId)]} onSwipeStart={this.setSwiping} onSwipeRelease={this.setSwiping}>
+                                <TouchableOpacity style={CallsStyles.callSection} onPress={null}>
+                                    <View style={CallsStyles.callInfo}>
+                                        {this.formatCallerTitle(item)}
+                                        <Text style={CallsStyles.subText}><FontAwesome name={item.callType == 'voice' ? 'phone' : 'video-camera'} size={12} color={Theme.iconColor}/> {item.callStatus.type}</Text>
+                                    </View>
 
-                                <Text style={CallsStyles.callDate}>{isToday(item.date) ? item.time : item.date}</Text>
-                            </TouchableOpacity>
+                                    <Text style={CallsStyles.callDate}>{isToday(item.date) ? item.time : item.date}</Text>
+                                </TouchableOpacity>
+                            </Swipeable>
                         );
                     }}
                 />

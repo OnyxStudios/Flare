@@ -6,10 +6,8 @@ import {
     Image,
     KeyboardAvoidingView,
     TextInput,
-    Keyboard,
-    TouchableWithoutFeedback,
     FlatList,
-    ScrollView
+    ScrollView, ImageBackground
 } from "react-native";
 import {Header} from "react-navigation-stack";
 import {Ionicons, FontAwesome} from '@expo/vector-icons';
@@ -17,6 +15,8 @@ import {global as GlobalStyles} from "../assets/styles/GlobalStyles";
 import {LinearGradient} from "expo-linear-gradient";
 import {conversation as ConversationStyles} from "../assets/styles/ConversationStyles";
 import {isToday, hexToRGBA} from './../utils/FlareUtils';
+import {WALLPAPERS} from './../utils/Images';
+import {inject, observer} from "mobx-react";
 const Theme = require('./../assets/styles/Theme');
 
 let tempData = {
@@ -105,6 +105,8 @@ let chatTitle = (icon, name) => {
     );
 };
 
+@inject('wallpaperStore')
+@observer
 export default class ConversationScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),
@@ -167,24 +169,35 @@ export default class ConversationScreen extends React.Component {
         }
     };
 
+    getWallpaperSource = () => {
+        const wallpaper = this.props.wallpaperStore.wallpaper;
+        if(~wallpaper.indexOf('.') || ~wallpaper.indexOf('png') || ~wallpaper.indexOf('jpg')) {
+            return {uri: wallpaper};
+        }
+
+        return WALLPAPERS[wallpaper];
+    };
+
     render() {
         let {chatId, textMessage} = this.state;
-        console.log(chatId);
+
         return(
                 <KeyboardAvoidingView behavior='height' style={ConversationStyles.keyboardContainer} keyboardVerticalOffset={Header.HEIGHT}>
-                    <ScrollView style={{flex: 1}} ref='scrollView' onContentSizeChange={(width, height) => this.refs.scrollView.scrollTo({y: height})}>
-                        <FlatList
-                            data={tempData[chatId]}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({item}) => this.MessageRenderer(item.sender, item.message, item.date, item.time)}
-                        />
-                    </ScrollView>
+                    <ImageBackground source={this.getWallpaperSource()} style={{width: '100%', height: '100%'}}>
+                        <ScrollView style={{flex: 1}} ref='scrollView' onContentSizeChange={(width, height) => this.refs.scrollView.scrollTo({y: height})}>
+                            <FlatList
+                                data={tempData[chatId]}
+                                keyExtractor={(item) => item.id}
+                                renderItem={({item}) => this.MessageRenderer(item.sender, item.message, item.date, item.time)}
+                            />
+                        </ScrollView>
 
-                    <View style={ConversationStyles.messageOptions}>
-                        <TextInput style={ConversationStyles.messageBox} multiline={true} value={textMessage}  placeholder='Message...' onChangeText={text => this.setState({textMessage: text})} />
-                        <TouchableOpacity style={ConversationStyles.messageFeature}><Ionicons name='ios-camera' size={32} color={Theme.gradientColorLeft}/></TouchableOpacity>
-                        <TouchableOpacity style={ConversationStyles.messageFeature}><Ionicons name='ios-send' size={32} color={Theme.confirmColor} /></TouchableOpacity>
-                    </View>
+                        <View style={ConversationStyles.messageOptions}>
+                            <TextInput style={ConversationStyles.messageBox} multiline={true} value={textMessage}  placeholder='Message...' onChangeText={text => this.setState({textMessage: text})} />
+                            <TouchableOpacity style={ConversationStyles.messageFeature}><Ionicons name='ios-camera' size={32} color={Theme.gradientColorLeft}/></TouchableOpacity>
+                            <TouchableOpacity style={ConversationStyles.messageFeature}><Ionicons name='ios-send' size={32} color={Theme.confirmColor} /></TouchableOpacity>
+                        </View>
+                    </ImageBackground>
                 </KeyboardAvoidingView>
         );
     }

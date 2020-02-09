@@ -1,8 +1,20 @@
 import React from 'react';
-import {ScrollView, Text, TouchableOpacity, View, TextInput, ImageBackground, Switch} from "react-native";
+import {
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+    TextInput,
+    ImageBackground,
+    Switch,
+    Platform,
+    Alert
+} from "react-native";
+import * as ImagePicker from 'expo-image-picker';
 import {global as GlobalStyles} from './../assets/styles/GlobalStyles';
 import {LinearGradient} from "expo-linear-gradient";
 import {settings as SettingsStyles} from "./../assets/styles/SettingsStyles";
+import {inject} from "mobx-react";
 const Theme = require('./../assets/styles/Theme');
 
 //TODO: Temporary until database and backend is stored so i can retrieve data
@@ -12,6 +24,7 @@ let userData = {
     number: '+1 (313) 548-1568'
 };
 
+@inject('wallpaperStore')
 export default class SettingsScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         title: <Text style={GlobalStyles.headerText}>Settings</Text>,
@@ -27,7 +40,8 @@ export default class SettingsScreen extends React.Component {
         autoSave: true,
         notifications: true,
         theme: '',
-        themeOptionsOpen: false
+        themeOptionsOpen: false,
+        backgroundsOptionOpen: false
     };
 
     componentDidMount() {
@@ -84,10 +98,34 @@ export default class SettingsScreen extends React.Component {
         this.setState({themeOptionsOpen: !themeOptionsOpen});
     };
 
-    render() {
-        let {name, autoSave, notifications, themeOptionsOpen, theme} = this.state;
+    handleChatBackgrounds = () => {
+        let {backgroundsOptionOpen} = this.state;
+        this.setState({backgroundsOptionOpen: !backgroundsOptionOpen});
+    };
 
-        return(
+    pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: Platform.OS !== 'ios',
+            aspect: [4, 3],
+            quality: 1
+        });
+
+        if (!result.cancelled) {
+            this.props.wallpaperStore.changeWallpaper(result.uri);
+            Alert.alert('Success', 'Successfully Changed Wallpaper!', [{text: 'OK'}], {cancelable: false});
+        }
+    };
+
+    clearWallpaper = () => {
+        this.props.wallpaperStore.removeWallpaper();
+        Alert.alert('Success', 'Successfully Cleared Wallpaper!', [{text: 'OK'}], {cancelable: false});
+    };
+
+    render() {
+        let {name, autoSave, notifications, themeOptionsOpen, theme, backgroundsOptionOpen} = this.state;
+
+        return (
             <ScrollView style={{flex: 1}} >
                 <View style={SettingsStyles.rowCategory}>
                     <ImageBackground source={{uri: userData.profilePic}} style={SettingsStyles.profilePicContainer} imageStyle={SettingsStyles.profilePic}>
@@ -114,12 +152,22 @@ export default class SettingsScreen extends React.Component {
                     </View>
 
                     <View style={SettingsStyles.optionsContainer}>
+                        <TouchableOpacity style={SettingsStyles.settingsBtn} onPress={this.handleChatBackgrounds}><Text style={SettingsStyles.settingText}>Chats Wallpaper</Text></TouchableOpacity>
+                        {backgroundsOptionOpen ?
+                            <View style={SettingsStyles.settingOptions}>
+                                <TouchableOpacity style={[SettingsStyles.threeOptions, SettingsStyles.borderSides]} onPress={() => this.props.navigation.navigate('Wallpaper')}><Text style={SettingsStyles.settingText}>Wallpaper Presets</Text></TouchableOpacity>
+                                <TouchableOpacity style={[SettingsStyles.threeOptions, SettingsStyles.borderSides]} onPress={() => this.pickImage()}><Text style={SettingsStyles.settingText}>Custom Photos</Text></TouchableOpacity>
+                                <TouchableOpacity style={[SettingsStyles.threeOptions, SettingsStyles.borderSides]} onPress={() => this.clearWallpaper()}><Text style={SettingsStyles.settingText}>Clear Wallpaper</Text></TouchableOpacity>
+                            </View> : null}
+                    </View>
+
+                    <View style={SettingsStyles.optionsContainer}>
                         <TouchableOpacity style={SettingsStyles.settingsBtn} onPress={this.handleThemes}><Text style={SettingsStyles.settingText}>Change Theme</Text></TouchableOpacity>
                         {themeOptionsOpen ?
                         <View style={SettingsStyles.settingOptions}>
-                            <TouchableOpacity onPress={() => this.setTheme('light')} style={[SettingsStyles.option, theme === 'light' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Light</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.setTheme('dark')} style={[SettingsStyles.option, theme === 'dark' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Dark</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.setTheme('black')} style={[SettingsStyles.option, theme === 'black' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Black</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.setTheme('light')} style={[SettingsStyles.threeOptions, theme === 'light' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Light</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.setTheme('dark')} style={[SettingsStyles.threeOptions, theme === 'dark' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Dark</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.setTheme('black')} style={[SettingsStyles.threeOptions, theme === 'black' ? SettingsStyles.selectedOption : null]}><Text style={SettingsStyles.settingText}>Black</Text></TouchableOpacity>
                         </View> : null }
                     </View>
                 </View>

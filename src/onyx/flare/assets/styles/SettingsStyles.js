@@ -167,10 +167,19 @@ let settings = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexWrap: 'wrap'
     },
-    option: {
+    threeOptions: {
         width: '30%',
+        padding: 5,
+        alignItems: 'center',
+        marginRight: 5,
+        marginLeft: 5,
+        marginTop: 5
+    },
+    halfOption: {
+        width: '45%',
         padding: 5,
         alignItems: 'center',
         marginRight: 5,
@@ -182,6 +191,12 @@ let settings = StyleSheet.create({
         borderColor: Theme.profileBorderColor,
         borderTopWidth: 2,
         borderBottomWidth: 2
+    },
+    borderSides: {
+        backgroundColor: hexToRGBA(Theme.backgroundColor, 0.4),
+        borderColor: Theme.profileBorderColor,
+        borderLeftWidth: 2,
+        borderRightWidth: 2
     }
 });
 
