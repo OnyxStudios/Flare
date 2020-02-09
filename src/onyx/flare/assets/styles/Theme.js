@@ -1,7 +1,7 @@
 let theme = {
     textColor: '#383838',
     backgroundColor: '#F2F2F2',
-    gradientColorLeft: '#6A83E7',
+    gradientColorLeft: '#6B81E7',
     gradientColorRight: '#B06BE8',
     iconColor: '#878787',
     subTextColor: '#b5b5b5',

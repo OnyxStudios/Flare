@@ -87,7 +87,7 @@ export default class ChatsScreen extends React.Component {
                                 <Image source={{uri: item.icon}} style={ChatsStyles.chatIcon} />
                                 <View style={ChatsStyles.chatData}>
                                     <View style={ChatsStyles.chatHeading}>
-                                        <Text style={ChatsStyles.chatTitle}>{item.name}</Text>
+                                        <Text numberOfLines={1} style={ChatsStyles.chatTitle}>{item.name.length < 28 ? item.name : item.name.substr(0, 25) + '...'}</Text>
                                         <Text style={ChatsStyles.chatDate}>{isToday(item.lastMsgDate) ? item.lastMsgTime : item.lastMsgDate}</Text>
                                     </View>
 

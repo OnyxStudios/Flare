@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text} from "react-native";
-import {FontAwesome} from '@expo/vector-icons';
+import {FontAwesome, Ionicons} from '@expo/vector-icons';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 
@@ -39,7 +39,7 @@ const MainStackRoutes = {
         screen: ChatsStack,
         navigationOptions: {
             tabBarLabel: <Text style={{fontSize: 14}}>Chats</Text>,
-            tabBarIcon: ({tintColor}) => (<FontAwesome name='comment' size={24} color={tintColor} />)
+            tabBarIcon: ({tintColor}) => (<Ionicons name='ios-chatboxes' size={24} color={tintColor} />)
         }
     },
     Settings: {

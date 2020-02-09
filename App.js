@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground, Dimensions} from 'react-native';
+import {ImageBackground} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from "react-navigation";
 import {MainStack, SignInStack} from './src/onyx/flare/AppNavigation';
 import {getData} from './src/onyx/flare/utils/StorageUtils';
@@ -15,6 +15,7 @@ class App extends React.Component {
     }
 
     _loadAsync = async () => {
+        console.disableYellowBox = true;
         //TODO Load User Data + Check if they're authenticated or not, if not then show welcome
         getData('showWelcome').then(value => {
           this.props.navigation.navigate(value === 'false' ? 'Main' : 'Welcome');
