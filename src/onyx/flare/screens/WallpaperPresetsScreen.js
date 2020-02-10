@@ -13,9 +13,9 @@ const Theme = require('./../assets/styles/Theme');
 @inject('wallpaperStore')
 export default class WallpaperPresetsScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: <Text style={GlobalStyles.headerText}>Wallpapers</Text>,
+        title: () => <Text style={GlobalStyles.headerText}>Wallpapers</Text>,
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),
-        headerStyle: GlobalStyles.navigationHeader,
+        headerStyle: () => GlobalStyles.navigationHeader,
         headerLeft: () => <TouchableOpacity style={WallpaperStyles.backArrow} onPress={navigation.getParam('exitPresets')}><Ionicons name='ios-arrow-back' size={30} color={Theme.navTextColor}/></TouchableOpacity>
     });
 

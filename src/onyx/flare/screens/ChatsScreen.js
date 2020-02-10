@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, SafeAreaView, FlatList, Image, TouchableOpacity} from "react-native";
 import Swipeable from 'react-native-swipeable-row';
+import {Ionicons} from '@expo/vector-icons';
 import {global as GlobalStyles} from './../assets/styles/GlobalStyles';
 import {LinearGradient} from "expo-linear-gradient";
 import {chats as ChatsStyles} from './../assets/styles/ChatsStyles';
@@ -65,14 +66,22 @@ let tempData = [
 ];
 
 export default class ChatsScreen extends React.Component {
-    static navigationOptions = {
-        title: <Text style={GlobalStyles.headerText}>Chats</Text>,
+    static navigationOptions = ({navigation}) => ({
+        title: () => <Text style={GlobalStyles.headerText}>Chats</Text>,
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),
-        headerStyle: GlobalStyles.navigationHeader
-    };
+        headerStyle: () => GlobalStyles.navigationHeader,
+        headerRight: () => <TouchableOpacity style={ChatsStyles.creatChat} onPress={navigation.getParam('createChat')}><Ionicons name='ios-create' size={30} color={Theme.navTextColor} /></TouchableOpacity>
+    });
 
     state = {
         swiping: false
+    };
+
+    componentDidMount() {
+        this.props.navigation.setParams({createChat: this.createChat});
+    }
+
+    createChat = () => {
     };
 
     openChat = (chatData) => {

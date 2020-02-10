@@ -35,6 +35,13 @@ let calls = StyleSheet.create({
     subText: {
         color: Theme.subTextColor,
         fontSize: 14
+    },
+    callUser: {
+        marginRight: 10,
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
