@@ -67,9 +67,9 @@ let tempData = [
 
 export default class ChatsScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: () => <Text style={GlobalStyles.headerText}>Chats</Text>,
+        title: <Text style={GlobalStyles.headerText}>Chats</Text>,
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),
-        headerStyle: () => GlobalStyles.navigationHeader,
+        headerStyle: GlobalStyles.navigationHeader,
         headerRight: () => <TouchableOpacity style={ChatsStyles.creatChat} onPress={navigation.getParam('createChat')}><Ionicons name='ios-create' size={30} color={Theme.navTextColor} /></TouchableOpacity>
     });
 

@@ -65,9 +65,9 @@ let tempData = [
 
 export default class CallsScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: () => <Text style={GlobalStyles.headerText}>Calls</Text>,
+        title: <Text style={GlobalStyles.headerText}>Calls</Text>,
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),
-        headerStyle: () => GlobalStyles.navigationHeader,
+        headerStyle: GlobalStyles.navigationHeader,
         headerRight: () => <TouchableOpacity style={CallsStyles.callUser} onPress={navigation.getParam('callUser')}><FontAwesome name='phone' size={30} color={Theme.navTextColor} /></TouchableOpacity>
     });
 

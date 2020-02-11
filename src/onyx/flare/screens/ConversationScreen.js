@@ -110,8 +110,8 @@ let chatTitle = (icon, name) => {
 export default class ConversationScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),
-        headerStyle: () => GlobalStyles.navigationHeader,
-        headerTitle: () => chatTitle(navigation.getParam('icon'), navigation.getParam('chatName')),
+        headerStyle: GlobalStyles.navigationHeader,
+        headerTitle: chatTitle(navigation.getParam('icon'), navigation.getParam('chatName')),
         headerLeft: () => <TouchableOpacity style={ConversationStyles.backArrow} onPress={navigation.getParam('exitChat')}><Ionicons name='ios-arrow-back' size={30} color={Theme.navTextColor} /></TouchableOpacity>,
         headerRight: () => navigation.getParam('isGroupChat') ? null : callFeatures(navigation.getParam('callUser'), navigation.getParam('videoCallUser')),
     });

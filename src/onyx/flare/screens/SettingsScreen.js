@@ -27,9 +27,9 @@ let userData = {
 @inject('wallpaperStore')
 export default class SettingsScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: () => <Text style={GlobalStyles.headerText}>Settings</Text>,
+        title: <Text style={GlobalStyles.headerText}>Settings</Text>,
         headerBackground: () => (<LinearGradient colors={[Theme.gradientColorLeft, Theme.gradientColorRight]} style={{flex: 1}} start={{x: 0, y: 0}} end={{x: 1, y: 1}} />),
-        headerStyle: () => GlobalStyles.navigationHeader,
+        headerStyle: GlobalStyles.navigationHeader,
         headerRight: () => (navigation.getParam('changes') ? <TouchableOpacity onPress={navigation.getParam('saveData')}><Text style={SettingsStyles.navSave}>Save</Text></TouchableOpacity> : null),
         headerLeft: () => (navigation.getParam('changes') ? <TouchableOpacity onPress={navigation.getParam('cancelChanges')}><Text style={SettingsStyles.navCancel}>Cancel</Text></TouchableOpacity> : null)
     });
